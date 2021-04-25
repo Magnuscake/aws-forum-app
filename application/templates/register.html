@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST">
+  <div class="field">
+    <label class="label">Enter email</label>
+    <div class="control">
+      <input
+        class="input"
+        type="email"
+        id="email"
+        name="email"
+      >
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Enter username</label>
+    <div class="control">
+      <input
+        class="input"
+        type="text"
+        id="username"
+        name="username"
+      >
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Enter a password</label>
+    <div class="control">
+      <input class="input" type="password" id="password1" name="password1" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Confirm your password</label>
+    <div class="control">
+      <input class="input" type="password" id="password2" name="password2" />
+    </div>
+  </div>
+
+  <div class="field">
+    <p class="control">
+    <button class="button is-success">
+      Create Account
+    </button>
+    </p>
+  </div>
+</form>
+{% endblock %}

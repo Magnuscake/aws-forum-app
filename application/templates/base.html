@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+    <!-- custom css -->
+    <link
+      rel="stylesheet" href="../static/styles.css" type="text/css">
+
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <nav class="navbar is-info">
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          {% if session['logged_in'] %}
+          <a class="navbar-item" href="/user">User</a>
+          <a class="navbar-item" href="/subscription">Subscription</a>
+          <a class="navbar-item" href="/query">Query</a>
+          <a class="navbar-item" href="/logout">Logout</a>
+          {% else %}
+          <a class="navbar-item" href="/login">Login</a>
+          <a class="navbar-item" href="/register">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == "error" %}
+          <div class="notification is-danger is-light">
+            <button class="delete"></button>
+            {{ message }}
+          </div>
+
+          {% else %}
+
+          <div class="notification is-success is-light">
+            <button class="delete"></button>
+            {{ message }}
+          </div>
+
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="container mt-4">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>
+

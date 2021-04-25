@@ -1,0 +1,54 @@
+{
+  "users": [
+    {
+      "email": "s37984200@student.rmit.edu.au",
+      "username": "Saneyar Khazin 0",
+      "password": "012345"
+    },
+    {
+      "email": "s37984201@student.rmit.edu.au",
+      "username": "Saneyar Khazin 1",
+      "password": "123456"
+    },
+    {
+      "email": "s37984202@student.rmit.edu.au",
+      "username": "Saneyar Khazin 2",
+      "password": "234567"
+    },
+    {
+      "email": "s37984203@student.rmit.edu.au",
+      "username": "Saneyar Khazin 3",
+      "password": "345678"
+    },
+    {
+      "email": "s37984204@student.rmit.edu.au",
+      "username": "Saneyar Khazin 4",
+      "password": "456789"
+    },
+    {
+      "email": "s37984205@student.rmit.edu.au",
+      "username": "Saneyar Khazin 5",
+      "password": "567890"
+    },
+    {
+      "email": "s37984206@student.rmit.edu.au",
+      "username": "Saneyar Khazin 6",
+      "password": "678901"
+    },
+    {
+      "email": "s37984207@student.rmit.edu.au",
+      "username": "Saneyar Khazin 7",
+      "password": "789012"
+    },
+    {
+      "email": "s37984208@student.rmit.edu.au",
+      "username": "Saneyar Khazin 8",
+      "password": "890123"
+    },
+    {
+      "email": "s37984209@student.rmit.edu.au",
+      "username": "Saneyar Khazin 9",
+      "password": "901234"
+    }
+  ]
+}
