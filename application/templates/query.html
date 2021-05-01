@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="POST">
+  <div class="columns is-2">
+    <div class="field column">
+      <label class="label">Enter artist</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          value="{{ request.form['artist'] }}"
+          id="artist"
+          name="artist"
+        >
+      </div>
+    </div>
+
+    <div class="field column">
+      <label class="label">Enter song title</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          value="{{ request.form['title'] }}"
+          id="title"
+          name="title"
+        >
+      </div>
+    </div>
+
+    <div class="field column">
+      <label class="label">Enter year</label>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          value="{{ request.form['year'] }}"
+          id="year"
+          name="year">
+      </div>
+    </div>
+
+    <div class="control column">
+      <button class="button is-info">Query</button>
+    </div>
+  </div>
+</form>
+
+{% if query_results %}
+  {% for item in query_results %}
+  <form action={{ url_for('views.add_subscription', title=item['title'], artist=item['artist']) }} method="POST">
+    <div class="card is-flex mb-4">
+
+      <div class="card-content">
+        <p class="title is-3">{{ item['title'] }}</p>
+        <p class="subtitle is-4">{{ item['artist'] }}</p>
+        <p class="subtitle is-6">{{ item['year'] }}</p>
+      </div>
+
+      <button class="button is-warning">Subscribe</button>
+    </div>
+  </form>
+  {% endfor %}
+  {% else %}
+  <p class="is-italic">No results retrived. Please try again</p>
+  {% endif %}
+{% endblock %}

@@ -73,4 +73,4 @@ def login():
 @auth.route('/logout')
 def logout():
     session.clear()
-    return redirect('auth.login')
+    return redirect(url_for('auth.login'))
