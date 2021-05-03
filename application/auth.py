@@ -70,7 +70,7 @@ def login():
             flash("ID or password is invalid", category='error')
 
 
-    get_artist_urls()
+    startup_function()
     return render_template('login.html', title="Login")
 
 @auth.route('/logout')
