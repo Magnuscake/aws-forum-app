@@ -45,16 +45,18 @@ def create_music_table():
         # Wait until the table exists.
         table.meta.client.get_waiter('table_exists').wait(TableName='Music')
 
-        base_dir = os.path.dirname(__file__)
-        abs_file = os.path.join(base_dir, 'a2.json')
-
-        with open(abs_file) as json_file:
-            music_data = json.load(json_file, parse_float=Decimal)
-
-        load_music_data(music_data)
-
     except dynamodb_client.exceptions.ResourceInUseException:
         print(f"Table {TABLE_NAME} already exists")
+
+    # Then load the music data
+    # Also loads any missing or deleted data
+    base_dir = os.path.dirname(__file__)
+    abs_file = os.path.join(base_dir, 'a2.json')
+
+    with open(abs_file) as json_file:
+        music_data = json.load(json_file, parse_float=Decimal)
+
+    load_music_data(music_data)
 
 
 def get_music_on_query(artist = "", title = "", year = ""):
@@ -115,7 +117,7 @@ def get_music_on_query(artist = "", title = "", year = ""):
 
 
 def load_music_data(music_data):
-    """Load data into music table
+    """Loads data into music table
     
     :params music_data: json file to load the music data from
     "returns: None
@@ -151,7 +153,7 @@ def get_artist_urls():
 
 
 def get_music_data(artist, title):
-    """Fetch music from the music table on the given Keys
+    """Fetch music from the music table on the provided Keys
     :params title: title of the music to fetch
     :type title: str
     :params artist: artist of the music to fetch
@@ -160,13 +162,14 @@ def get_music_data(artist, title):
     :rtype: dict
     """
 
-    response = table.get_item(
-        Key = {
-            'title': title,
-            'artist': artist,
-        }
-    )
+    try:
+        response = table.get_item(
+            Key = {
+                'title': title,
+                'artist': artist,
+            }
+        )
 
-    item = response['Item']
-
-    return item
+        return response['Item']
+    except KeyError: 
+        return {}
