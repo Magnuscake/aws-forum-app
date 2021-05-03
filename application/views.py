@@ -10,7 +10,7 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def root():
-    if session['logged_in']:
+    if 'logged_in' in session and session['logged_in']:
         return redirect(url_for('views.user_area'))
     return redirect(url_for('auth.login'))
 

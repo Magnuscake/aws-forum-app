@@ -75,5 +75,6 @@ def login():
 
 @auth.route('/logout')
 def logout():
-    session.clear()
+    session.pop('user_info', None)
+    session['logged_in'] = False
     return redirect(url_for('auth.login'))
