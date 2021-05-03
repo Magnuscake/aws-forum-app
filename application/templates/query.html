@@ -50,6 +50,9 @@
   {% for item in query_results %}
   <form action={{ url_for('views.add_subscription', title=item['title'], artist=item['artist']) }} method="POST">
     <div class="card is-flex mb-4">
+      <figure class="image is-128x128">
+        <img src={{ item['img_url'] }}>
+      </figure>
 
       <div class="card-content">
         <p class="title is-3">{{ item['title'] }}</p>

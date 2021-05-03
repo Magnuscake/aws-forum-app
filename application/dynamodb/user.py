@@ -1,5 +1,5 @@
+from application.dynamodb.music import TABLE_NAME
 import os
-import logging
 import json
 from decimal import Decimal
 
@@ -10,8 +10,10 @@ from boto3.dynamodb.conditions import Key, Attr
 dynamodb = boto3.resource('dynamodb')
 dynamodb_client = boto3.client('dynamodb')
 
+TABLE_NAME = "User_Details"
+table = dynamodb.Table(TABLE_NAME)
+
 def put_user(email, username, password):
-    table = dynamodb.Table('User_Details')
 
     response = table.put_item(
         Item = {
@@ -23,11 +25,9 @@ def put_user(email, username, password):
 
     return response
 
-def key_exists(key, user_input):
-    table = dynamodb.Table('User_Details')
-
+def key_exists(key, value):
     response = table.query(
-        KeyConditionExpression = Key(key).eq(user_input)
+        KeyConditionExpression = Key(key).eq(value)
     )
 
     if response['Items']:
@@ -36,8 +36,6 @@ def key_exists(key, user_input):
     return False
 
 def attr_exists(attribute, user_input):
-    table = dynamodb.Table('User_Details')
-
     response = table.scan(
         FilterExpression = Attr(attribute).eq(user_input)
     )
@@ -63,9 +61,7 @@ def login_user(email, password):
 
     return item
 
-def create_users():
-    table = dynamodb.Table('User_Details')
-
+def load_users():
     try:
         base_dir = os.path.dirname(__file__)
         abs_file = os.path.join(base_dir, 'users.json')
@@ -74,14 +70,12 @@ def create_users():
             users = json.load(json_file, parse_float=Decimal)
 
             for user in users['users']:
+                #  Check if the user already exists in the table
+                response = key_exists('email', user['email'])
 
-                response = table.query(
-                    KeyConditionExpression = Key('email').eq(user['email'])
-                )
-
-                if not response['Items']:
+                if not response:
                     table.put_item(Item=user)
 
-    except dynamodb_client.exceptions.ResourceNotFoundException as e:
-        logging.error(e)
+    except dynamodb_client.exceptions.ResourceNotFoundException:
+        print("The table you are trying to query does not exist")
 

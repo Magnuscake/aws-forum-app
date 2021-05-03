@@ -3,12 +3,20 @@ from flask import (
 )
 
 from .dynamodb.user import (
-    put_user, login_user, create_users, key_exists, attr_exists
+    put_user, login_user, key_exists, attr_exists, load_users
 )
 from .dynamodb.music import create_music_table, get_artist_urls
 from .s3.music import upload_artist_images
 
 auth = Blueprint('auth', __name__)
+
+def startup_function():
+    load_users()
+    create_music_table()
+    # Get the urls for the images in the 'Music' table
+    artist_img_urls = get_artist_urls()
+    # Upload the images from each url from the above result
+    upload_artist_images(artist_img_urls)
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
@@ -61,13 +69,8 @@ def login():
         else:
             flash("ID or password is invalid", category='error')
 
-    #  create_music_table()
-    #  create_artist_bucket(None)
-    #  artist_img_urls = get_artist_urls()
-    #  create_users()
-    #  upload_artist_images(artist_img_urls)
 
-    
+    get_artist_urls()
     return render_template('login.html', title="Login")
 
 @auth.route('/logout')

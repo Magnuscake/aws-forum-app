@@ -38,7 +38,7 @@ def query_area():
         artist = data.get('artist')
         title = data.get('title')
         year = data.get('year')
-        
+
         query_results = get_music_on_query(artist, title, year)
 
     return render_template('query.html', query_results=query_results)
