@@ -91,6 +91,7 @@ def get_music_on_query(artist = "", title = "", year = ""):
             if year:
                 filter_expression = Attr('title').eq(title) & Attr('year').eq(year)
 
+            else:
                 filter_expression = Attr('title').eq(title)
         else:
             filter_expression = Attr('year').eq(year)
