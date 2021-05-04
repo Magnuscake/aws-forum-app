@@ -29,7 +29,7 @@ def get_subscriptions(username):
     return None
 
 def put_subscription(username, title, artist):
-    item = get_music_data(title, artist)
+    item = get_music_data(artist, title)
     bucket_name = 's3798420-artist-images'
     img_name = item['img_url'].split('/')[-1]
 
