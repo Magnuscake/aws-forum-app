@@ -1,17 +1,28 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session
 
 from .decorators import login_required
-from application.dynamodb.music import get_music_on_query
+from .dynamodb.music import get_music_on_query, create_music_table, get_artist_urls
+from .dynamodb.user import load_users
 from .dynamodb.subscription import (
     get_subscriptions, put_subscription, delete_subscription
 )
+from .s3.music import upload_artist_images
 
 views = Blueprint('views', __name__)
+
+def startup_function():
+    load_users()
+    create_music_table()
+    # Get the urls for the images in the 'Music' table
+    artist_img_urls = get_artist_urls()
+    # Upload the images from each url from the above result
+    upload_artist_images(artist_img_urls)
 
 @views.route('/')
 def root():
     if 'logged_in' in session and session['logged_in']:
         return redirect(url_for('views.user_area'))
+    startup_function()
     return redirect(url_for('auth.login'))
 
 @views.route('/user')
