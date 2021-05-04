@@ -1,23 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if subscriptions %}
+<div class="columns is-flex is-multiline">
   {% for item in subscriptions %}
-  <form action={{ url_for('views.remove_subscription', title=item['title']) }} method="POST">
-    <div class="card is-flex mb-4">
-      <figure class="image is-128x128">
+  <form
+    class="column is-3"
+    action={{ url_for('views.remove_subscription', title=item['title']) }}
+    method="POST"
+    >
+    <div class="card card-equal-height">
+      <figure class="image is-3by2">
         <img src={{ item['img'] }}>
       </figure>
 
       <div class="card-content">
-        <p class="title is-3">{{ item['title'] }}</p>
+        <p class="title">{{ item['title'] }}</p>
         <p class="subtitle is-4">{{ item['artist'] }}</p>
         <p class="subtitle is-6">{{ item['year'] }}</p>
       </div>
 
-      <button class="button is-danger">Remove</button>
+      <footer class="card-footer">
+      <button class="card-footer-item button is-danger">Remove</button>
     </div>
   </form>
   {% endfor %}
+</div>
   {% else %}
   You have not subscribed to anyone yet
   {% endif %}
