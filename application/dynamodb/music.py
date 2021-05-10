@@ -5,7 +5,6 @@ from decimal import Decimal
 import boto3
 from boto3.dynamodb.conditions import Attr
 
-# Define the service resource and client globally
 dynamodb = boto3.resource('dynamodb')
 dynamodb_client = boto3.client('dynamodb')
 
@@ -13,6 +12,10 @@ TABLE_NAME = "Music"
 table = dynamodb.Table(TABLE_NAME)
 
 def create_music_table():
+    """Create the music table and load the music data from the json data file"
+    :returns: None
+    """
+
     try:
         table = dynamodb.create_table(
             TableName='Music',
@@ -45,10 +48,11 @@ def create_music_table():
         # Wait until the table exists.
         table.meta.client.get_waiter('table_exists').wait(TableName='Music')
 
+    # In case the table already exists
     except dynamodb_client.exceptions.ResourceInUseException:
         print(f"Table {TABLE_NAME} already exists")
 
-    # Then load the music data
+    # Load the music data
     # Also loads any missing or deleted data
     base_dir = os.path.dirname(__file__)
     abs_file = os.path.join(base_dir, 'a2.json')
@@ -60,16 +64,17 @@ def create_music_table():
 
 
 def get_music_on_query(artist = "", title = "", year = ""):
-    """
+    """Fetch music from the databse based on the available fields
     :params artist: Name of artist to query on
     :type artist: str
     :params title: Title of music to query on
-    :type artist: str
+    :type title: str
     :params year: Year of music to query on
-    :type artist: str
+    :type year: str
     :returns: List of music based on the query strings
     :rtype: list
     """
+
     response = {} 
     filter_expression = ''
 
@@ -119,8 +124,8 @@ def get_music_on_query(artist = "", title = "", year = ""):
 
 def load_music_data(music_data):
     """Loads data into music table
-    
     :params music_data: json file to load the music data from
+    :type music_data: list
     "returns: None
     """
 
@@ -136,6 +141,9 @@ def load_music_data(music_data):
 
 
 def get_artist_urls():
+    """Fetch the 'img_url' for all the music in the database
+    :returns: None
+    """
     try:
         scan_kwargs = {
             'ProjectionExpression': 'img_url'

@@ -1,4 +1,3 @@
-from application.dynamodb.music import TABLE_NAME
 import os
 import json
 from decimal import Decimal
@@ -14,6 +13,16 @@ TABLE_NAME = "User_Details"
 table = dynamodb.Table(TABLE_NAME)
 
 def put_user(email, username, password):
+    """Insert an user item into the user table
+    :params email: Email of the new user
+    :type email: str
+    :params username: username of the new user
+    :type username: str
+    :params password: password of the new user
+    :type password: str
+    :returns: The response object
+    :rtype: dict
+    """
 
     response = table.put_item(
         Item = {
@@ -26,6 +35,17 @@ def put_user(email, username, password):
     return response
 
 def key_exists(key, value):
+    """Check if the given key value pair exists in the database table. This is
+        mainly used to check for primary key value, specifically the Hash key and
+        Range Key
+    :params key: Key of the property to check on
+    :type key: str
+    :params value: Value of the property to check on
+    :type key: str
+    :returns: True if an item with the given key value pair exists, else False
+    :rtype: Bool
+    """
+
     response = table.query(
         KeyConditionExpression = Key(key).eq(value)
     )
@@ -36,6 +56,16 @@ def key_exists(key, value):
     return False
 
 def attr_exists(attribute, user_input):
+    """Check if the given key value pair exists in the database table. This is
+        used to check for non key attributes
+    :params attribute: Attribute of the property to check on
+    :type attribute: str
+    :params user_input: Value based on the user input to check on
+    :type user_input: str
+    :returns: True if an item with the given key value pair exists, else False
+    :rtype: Bool
+    """
+
     response = table.scan(
         FilterExpression = Attr(attribute).eq(user_input)
     )
@@ -46,7 +76,18 @@ def attr_exists(attribute, user_input):
     return False
 
 def login_user(email, password):
-    table = dynamodb.Table('User_Details')
+    """This is the main function that logs in a user. Based on the given email
+        and password, if an item with the given email exists, the function checks
+        if the password in that item is the same password that is passed to the
+        function. If everything checks out, it returns a dict containing all the
+        user info
+    :params email: Email of the user trying to log in
+    :type email: str
+    :params password: Password of the user trying to log in
+    :type password: str
+    :returns: dict containing user info if user exists, else an empty dict
+    :rtype: dict
+    """
 
     response = table.get_item(
         Key={
@@ -57,12 +98,16 @@ def login_user(email, password):
     item = response['Item']
 
     if not item['password'] == password:
-        return None
+        return {}
 
     return item
 
 def load_users():
+    """Load users into the dynamodb table from the given json file
+    :returns: None
+    """
     try:
+        # json file should be in the same file location as the function
         base_dir = os.path.dirname(__file__)
         abs_file = os.path.join(base_dir, 'users.json')
 
