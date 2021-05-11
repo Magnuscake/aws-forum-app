@@ -1,0 +1,39 @@
+#+TITLE: README.org
+#+AUTHOR: Magnuscake
+
+* Overview
+This project was a part of the 2nd Assigment for the Cloud Computing Course at RMIT Melbourne for Semester 1, 2021. The task was a to create a cloud based web application that allows a user to login with their credentials, browse available music artists and subscribe to an artist they like. In the subscription feature in this case is simply subscribing to a song by an artist along with the details associated with song such as year, song title and artist image.
+
+Music and user details and stored in tables in DynamoDB. The images are stored in a bucket in s3. The app was originally hosted on an EC2 instance for the demo, but however, since that is no, I have taken it off. All files are sorted in their corresponding folders, eg: operations related to DynamoDB in its respective folder and so on.
+
+* Screenshots
+** Login page
+#+attr_org: :width 1000
+#+attr_html: :width 1000
+[[./screenshots/login-page.png]]
+
+** Register page
+#+attr_org: :width 1000
+#+attr_html: :width 1000
+[[./screenshots/register-page.png]]
+
+** User area
+#+attr_org: :width 1000
+#+attr_html: :width 1000
+[[./screenshots/user-area.png]]
+
+** Subscriptions area
+#+attr_org: :width 1000
+#+attr_html: :width 1000
+[[./screenshots/subscriptions-area.png]]
+
+** Query area
+*** Main page
+#+attr_org: :width 1000
+#+attr_html: :width 1000
+[[./screenshots/login-page.png]]
+
+*** Query search
+#+attr_org: :width 1000
+#+attr_html: :width 1000
+[[./screenshots/login-page.png]]
